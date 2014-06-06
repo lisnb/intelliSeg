@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 17:10:51
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 18:55:16
+# @Last Modified time: 2014-06-06 20:54:32
 # @Email: lisnb.h@gmail.com
 
 """
@@ -13,11 +13,17 @@
 from __future__ import division 
 import math
 import sys
-
+import re
 sys.path .append('..')
-
 from dicts import SogouLabTrie
 from dicts import SogouLabFreq
+
+
+
+DICT_PATH = '../dicts/SogouLabDic.word.freq.dic'
+
+USE_CHARDETECT = True
+
 
 
 trie = SogouLabTrie.SougouLabDicTrie
@@ -26,7 +32,9 @@ smooth = SogouLabFreq.freq_smooth
 
 
 
-def initialize(dictpath='../dicts/SogouLabDic.word.freq.dic'):
+
+
+def initialize(dictpath=DICT_PATH):
 	global trie,word_freq,smooth
 	with open(dictpath,'rb') as f:
 		words = f.read()
@@ -35,7 +43,7 @@ def initialize(dictpath='../dicts/SogouLabDic.word.freq.dic'):
 	freq=[float(x[1]) for x in tmp]
 	freq_sum=sum(freq)
 	smooth=math.log(min(freq)/freq_sum)
-	print smooth
+	# print smooth
 	words=[x[0] for x in tmp]
 	for i in range(len(words)):
 		word=words[i]

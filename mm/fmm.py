@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 17:09:01
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 19:14:20
+# @Last Modified time: 2014-06-06 20:14:46
 # @Email: lisnb.h@gmail.com
 
 """
@@ -15,6 +15,7 @@ sys.path.append('..')
 from configs import config
 
 def seg(sentence):
+	# print sentence
 	trie = config.trie
 	s,e=0,0
 	segments=[]

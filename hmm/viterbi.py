@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 14:50:38
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 19:14:02
+# @Last Modified time: 2014-06-06 20:14:12
 # @Email: lisnb.h@gmail.com
 
 """
@@ -45,10 +45,11 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
 
 
 def seg(sentence):
+	# print sentence
 	segments=[]
 	prob,path = viterbi(sentence, hmm_states, start, trans, emit)
 	s,e=0,0
-	print path
+	# print path
 	while e<len(sentence):
 		if path[e] == 'B':
 			s=e
