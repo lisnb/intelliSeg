@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 20:57:37
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 22:23:03
+# @Last Modified time: 2014-06-06 22:59:37
 # @Email: lisnb.h@gmail.com
 
 """
@@ -38,10 +38,26 @@ def bar():
 	print s.encode('cp936')
 if __name__ == '__main__':
 	import sys,getopt
-	opts,args = getopt.getopt(sys.argv[1:], 'hs:f')
+	opts,args = getopt.getopt(sys.argv[1:], 'hi:s:f')
+	handlers='fvm'
+	isfile=False
+	inputcontent=''
 	for op,v in opts:
-		print op,v
-	
+		if op == '-h':
+			print usage
+		elif op == '-s':
+			handlers=v
+		elif op == '-f':
+			isfile = True
+		elif op == '-i':
+			inputcontent=v
+	if not inputcontent:
+		print 'You should provide a content at least. with -h to check the usage.'
+		exit(1)
+
+	print chardet.detect(inputcontent.decode('gb2312'))
+	s='年后，我是'
+	print chardet.detect(s.decode('utf-8'))
 
 
 

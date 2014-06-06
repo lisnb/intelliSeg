@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 17:10:51
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 21:33:48
+# @Last Modified time: 2014-06-06 23:42:23
 # @Email: lisnb.h@gmail.com
 
 """
@@ -15,6 +15,7 @@ import math
 import sys
 import re
 import string 
+import platform
 sys.path .append('..')
 from dicts import SogouLabTrie
 from dicts import SogouLabFreq
@@ -25,7 +26,7 @@ DICT_PATH = '../dicts/SogouLabDic.word.freq.dic'
 
 USE_CHARDETECT = True
 
-
+ISWINDOWS = 'windows' in (''.join(platform.architecture())).lower()
 
 trie = SogouLabTrie.SougouLabDicTrie
 word_freq = SogouLabFreq.SogouLabDicFreq
@@ -33,7 +34,7 @@ smooth = SogouLabFreq.freq_smooth
 
 
 re_chinese= re.compile(ur"([\u4E00-\u9FA5]+)")
-re_punc = re.compile(r'%s'%u'[%s\s？《》【】{}（）~“”‘’，。、]+'%string.punctuation)
+re_punc = re.compile(r'%s'%u'[%s\s？《》【】{}（）~“”‘’，。、…；：]+'%string.punctuation)
 re_space = re.compile(ur'[\s]+')
 
 

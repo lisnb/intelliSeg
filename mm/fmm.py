@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 17:09:01
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 22:17:35
+# @Last Modified time: 2014-06-06 23:33:32
 # @Email: lisnb.h@gmail.com
 
 """
@@ -21,11 +21,14 @@ def seg(sentence):
 	segments=[]
 	p=trie
 	while e< len(sentence):
-		# print sentence[e]
+		# print sentence[e].encode('cp936')
 		if sentence[e] in p:
 			p = p[sentence[e]]
 			e+=1
 		else:
+			
+			if e is s:
+				e+=1
 			segments.append(sentence[s:e])
 			s=e
 			p=trie
@@ -35,7 +38,7 @@ def seg(sentence):
 
 
 if __name__ == '__main__':
-	s='我很喜欢周杰伦这个歌手'
+	s='用我们的无私与真诚去感动世界'
 	ss=s.decode('utf-8')
 	print ('/'.join(seg(ss))).encode('cp936')
 
