@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 17:09:01
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 20:14:46
+# @Last Modified time: 2014-06-06 22:17:35
 # @Email: lisnb.h@gmail.com
 
 """
@@ -21,6 +21,7 @@ def seg(sentence):
 	segments=[]
 	p=trie
 	while e< len(sentence):
+		# print sentence[e]
 		if sentence[e] in p:
 			p = p[sentence[e]]
 			e+=1

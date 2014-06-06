@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-05-29 12:46:15
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 20:53:13
+# @Last Modified time: 2014-06-06 22:26:34
 # @Email: lisnb.h@gmail.com
 
 """
@@ -37,6 +37,9 @@ class EncodingError(Exception):
 
 
 def segit(sentence,handler):
+	if not handler:
+		segments = ['[not a valid segment handler.]']
+		return segments
 	# print handler
 	encoding = 'utf-8'
 	# try:
@@ -48,12 +51,22 @@ def segit(sentence,handler):
 			encoding = s_encoding
 		else:
 			raise EncodingError(s_encoding)
-	ascii_sentence = sentence.decode(encoding)
 
-	if not handler:
-		segments = ['[not a valid segment handler.]']
-	else:
-		segments = handler(ascii_sentence)
+	segments=[]
+
+	ascii_sentence = sentence.decode(encoding)
+	validsentence = config.re_chinese.split(ascii_sentence)
+
+	for vs in validsentence:
+		if config.re_chinese.match(vs):
+			# print vs
+			segments.extend(handler(vs))
+		else:
+			puncs = config.re_punc.split(vs)
+			for pe in puncs:
+				if pe.strip()!='':
+					segments.append(pe)
+
 
 	return segments
 	# except EncodingError as e:
@@ -88,8 +101,10 @@ def seg(inputcontent,handlers,is_file=False):
 
 
 if __name__ == '__main__':
-	s='从你走进来的那一刹那我就知道你是一个错误'
-	seg('./test/foo.txt', 'vfm',True)
+	import sys,getopt
+	opts,args = getopt.getopt(sys.argv[1:], 'hi:s:f')
+	for op,v in opts:
+		
 
 
 
