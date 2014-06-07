@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 20:57:37
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 22:59:37
+# @Last Modified time: 2014-06-07 12:34:16
 # @Email: lisnb.h@gmail.com
 
 """
@@ -36,7 +36,8 @@ def bar():
 	s='where is the love'
 	print chardet.detect(s)
 	print s.encode('cp936')
-if __name__ == '__main__':
+
+def biz():
 	import sys,getopt
 	opts,args = getopt.getopt(sys.argv[1:], 'hi:s:f')
 	handlers='fvm'
@@ -58,6 +59,11 @@ if __name__ == '__main__':
 	print chardet.detect(inputcontent.decode('gb2312'))
 	s='年后，我是'
 	print chardet.detect(s.decode('utf-8'))
+if __name__ == '__main__':
+	re_e=re.compile(ur'([a-z]+)')
+	s=u'可曾发觉，adddd,在左边'
+	for i in re_e.split(s):
+		print i.encode('cp936')
 
 
 

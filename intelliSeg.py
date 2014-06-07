@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-05-29 12:46:15
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 23:49:18
+# @Last Modified time: 2014-06-07 17:25:46
 # @Email: lisnb.h@gmail.com
 
 """
@@ -12,7 +12,7 @@
 """
 from __future__ import division
 from hmm import viterbi
-from mm import fmm,maxprob
+from mm import fmm,maxprob,maxprob_viterbi
 from configs import config
 
 if config.USE_CHARDETECT:
@@ -21,7 +21,8 @@ if config.USE_CHARDETECT:
 HANDLERS={
 			'f':fmm.seg,
 			'm':maxprob.seg,
-			'v':viterbi.seg	
+			'v':viterbi.seg,
+			'x':maxprob_viterbi.seg	
 	}
 
 
@@ -47,11 +48,12 @@ def segit(sentence,handler):
 		s_encoding = chardet_.detect(sentence)['encoding']
 		if s_encoding.lower() == 'utf-8':
 			pass
-		elif s_encoding.lower() in ['cp936','gbk','gb2312','ascii']:
+		# elif s_encoding.lower() in ['cp936','gbk','gb2312','ascii']:
+		else:
 			encoding = s_encoding
 
-		else:
-			raise EncodingError(s_encoding)
+		# else:
+		# 	raise EncodingError(s_encoding)
 	# else:
 	# 	if config.ISWINDOWS:
 	# 		encoding='gb2312'
@@ -77,7 +79,7 @@ def segit(sentence,handler):
 	# 	print e 
 
 
-def seg(inputcontent,handlers='fvm',is_file=False):
+def seg(inputcontent,handlers='xfvm',is_file=False):
 	handlers=list(handlers)
 	if is_file:
 		with open(inputcontent) as f:
@@ -95,6 +97,7 @@ def seg(inputcontent,handlers='fvm',is_file=False):
 				content=content.encode('utf-8')
 				f.write(content)
 	else:
+		print 
 		for h,segment in zip(handlers,segments):
 			print '[%s]: %s\n'%(h,'/'.join(segment))
 
@@ -111,6 +114,7 @@ detail:
 			f:	Forward Maximum Matching 
 			m:	Maximum Probability Path 
 			v:	HMM & Viterbi ('B','M','E','S')
+			x:	Hybrid method via v and f (default) 
 		you can combine them when you want to compare the results:
 			eg: -s fm 
 			>> return the results of both methods
@@ -141,15 +145,20 @@ detail:
 		in case you want to open it with notepad .
 	-f 	specify -f means the input is a file. if it is just a single 
 		sentence, ignore it.
+	-d 	use a user-defined dict 
+			eg: -d '../dicts/user-defined.dict'
+			your dict should be in this format
+			<word>	<freq>
 
 """
 
 if __name__ == '__main__':
 	import sys,getopt
-	opts,args = getopt.getopt(sys.argv[1:], 'hi:s:f')
-	handlers='fvm'
+	opts,args = getopt.getopt(sys.argv[1:], 'hi:s:d:f')
+	handlers='x'
 	isfile=False
 	inputcontent=''
+	userdict='^'
 	if len(opts) is 0:
 		print usage
 	for op,v in opts:
@@ -161,10 +170,16 @@ if __name__ == '__main__':
 			isfile = True
 		elif op == '-i':
 			inputcontent=v
+		elif op == '-d':
+			userdict=v
 	if not inputcontent:
 		print 'You should provide a content at least. with -h to check the usage.'
 		exit(1)
 
+	if userdict != '' and userdict != '^':
+		config.initialize(userdict)
+	elif userdict == '':
+		print 'User Dict Invalid, Use Default'
 
 	seg(inputcontent, handlers,isfile)
 

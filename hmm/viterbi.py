@@ -3,7 +3,7 @@
 # @Author: LiSnB
 # @Date:   2014-06-06 14:50:38
 # @Last Modified by:   LiSnB
-# @Last Modified time: 2014-06-06 20:14:12
+# @Last Modified time: 2014-06-07 14:28:32
 # @Email: lisnb.h@gmail.com
 
 """
@@ -17,6 +17,8 @@ from prob_condition import condition,hmm_states
 
 smooth_min =-3.14e100
 
+
+#根据维基百科 viterbi算法的python实现修改
 def viterbi(obs, states, start_p, trans_p, emit_p):
     V = [{}]
     path = {}
